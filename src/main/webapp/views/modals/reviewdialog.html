@@ -1,0 +1,25 @@
+<div id="reviewDialog" class="modal fade" role="dialog" aria-labelledby="dialogTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="dialogTitle">Reviews</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="reviews.length > 0">
+                    <div class="panel panel-default" ng-repeat="review in reviews">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{review.author}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            {{review.content}}
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="reviews.length == 0">
+                    <p>No reviews available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

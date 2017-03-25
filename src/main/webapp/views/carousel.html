@@ -1,0 +1,22 @@
+<div class="overlay" ng-show="showCarousel">
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li ng-repeat="image in images" data-target="carousel" data-slide-to="{{$index}}" ng-class="{{$first}} ? 'active' : ''"></li>
+        </ol>
+
+        <div class="carousel-inner" role="listbox" ng-click="hideCarousel()">
+            <div class="item" ng-repeat="image in images" ng-class="{{$first}} ? 'active' : ''">
+                <img ng-src="{{getImageUrl(imageSizeCarousel, image.file_path)}}" alt="no image">
+            </div>
+        </div>
+
+        <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="false"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="false"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>

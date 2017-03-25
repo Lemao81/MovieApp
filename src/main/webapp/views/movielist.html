@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="flex-container flex-container-spacing" ng-repeat="row in movies | genreSelection:selectedGenres | rowCount:2">
+            <div class="flex-item flex-1" ng-repeat="movie in movies | genreSelection:selectedGenres | itemsOfRow:row:2">
+                <div class="well well-sm">
+                    <div id="wellContainer" class="flex-container">
+                        <div class="flex-item flex-1">
+                            <img ng-src="{{getImageUrl(imageSizeList, movie.poster_path)}}" alt="no image">
+                        </div>
+                        <div class="flex-item flex-1 movie-title">
+                            {{movie.title}}
+                            <br><br>
+
+                            <button class="btn btn-primary btn-sm space-after" ng-click="getImages(movie.id)">Pics</button>
+                            <button class="btn btn-primary btn-sm">Video</button>
+                            <button class="btn btn-primary btn-sm" ng-click="getReviews(movie.id)" data-toggle="modal" data-target="#reviewDialog">
+                                Reviews
+                            </button>
+                            <button class="btn btn-primary btn-sm" ng-click="getSimilarMovies(movie)" data-toggle="modal"
+                                    data-target="#similarDialog">Similar
+                            </button>
+                        </div>
+                        <div class="flex-item flex-1 movie-genres">
+                            {{genreIdsToString(movie.genre_ids)}}
+                            <br><br>
+                            {{movie.vote_average}}
+                        </div>
+                        <div class="flex-item flex-2 movie-overview">
+                            {{movie.overview}}
+                        </div>
+                        <div class="flex-item flex-1">
+                            <button class="btn btn-success" ng-hide="watchlistContainsMovie(movie)" ng-click="addToWatchlist(movie)">+ Watchlist
+                            </button>
+                            <button class="btn btn-warning" ng-show="watchlistContainsMovie(movie)" ng-click="removeFromWatchlist(movie)">-
+                                Watchlist
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel bg-danger" ng-show="error">
+        Something´s wrong: {{error}}
+    </div>
+</div>
