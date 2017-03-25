@@ -1,13 +1,19 @@
 mainModule
-    .factory("Watchlist", function () {
+    .factory("Watchlist", function ($window) {
         var watchlist = [];
+
+        var storeWatchlist = function () {
+            $window.sessionStorage.setItem("watchlist", angular.toJson(watchlist));
+        };
 
         return {
             addToWatchlist: function (movie) {
                 watchlist.push(movie);
+                storeWatchlist();
             },
             removeFromWatchlist: function (movie) {
                 watchlist.splice(watchlist.indexOf(movie), 1);
+                storeWatchlist();
             },
             watchlistContainsMovie: function (movie) {
                 var result = false;
@@ -21,8 +27,14 @@ mainModule
             },
             getWatchlist: function () {
                 return watchlist;
+            },
+            updateFromSession: function () {
+                var watchlistStringified = $window.sessionStorage.getItem("watchlist");
+                if (watchlistStringified) {
+                    watchlist = angular.fromJson(watchlistStringified);
+                }
             }
-        }
+        };
     })
     .factory("Logger", function () {
         function withTimePrefix(msg) {

@@ -1,14 +1,20 @@
 mainModule
-    .controller("restCtrl", function ($scope, $http, Logger, Url) {
+    .controller("restCtrl", function ($scope, $http, $window, Logger, Url) {
         $scope.getGenreList = function () {
             $http.get(Url.base("/genre/movie/list").apiKey().build())
                 .then(function (data) {
                     $scope.genres = data.data.genres;
-                    var ids = [];
-                    $scope.genres.forEach(function (genre) {
-                        ids.push(genre.id);
-                    });
-                    $scope.selectedGenres = ids;
+
+                    var genreListStringified = $window.sessionStorage.getItem("genres");
+                    if (genreListStringified) {
+                        $scope.selectedGenres = angular.fromJson(genreListStringified);
+                    } else {
+                        var ids = [];
+                        $scope.genres.forEach(function (genre) {
+                            ids.push(genre.id);
+                        });
+                        $scope.selectedGenres = ids;
+                    }
                 }, function (data) {
                     handleError(data);
                 });
@@ -63,14 +69,38 @@ mainModule
                     }
                 }, function (data) {
                     handleError(data);
-                })
+                });
         };
 
         $scope.createSession = function (requestToken) {
-            $http.get(Url.base("/authentication/session/new").param("request_token", requestToken).apiKey().build());
+            $http.get(Url.base("/authentication/session/new").param("request_token", requestToken).apiKey().build())
+                .then(function (data) {
+                    if (data.data.success) {
+                        debugger;
+                        $scope.sessionId = data.data.session_id;
+                        $scope.getAccountDetails($scope.sessionId);
+                    } else {
+                        Logger.loge("Retrieving session id failed");
+                    }
+                }, function (data) {
+                    debugger;
+                    handleError(data);
+                });
+        };
+
+        $scope.getAccountDetails = function (sessionId) {
+            $http.get(Url.base("/account").param("session_id", sessionId).apiKey().build())
+                .then(function (data) {
+                    debugger;
+                    $scope.username = data.data.username;
+                }, function (data) {
+                    handleError(data);
+                });
         };
 
         function handleError(data) {
             $scope.error = data;
+            Logger.loge("Something went wrong! Status: " + data.status + ", Text: " + data.statusText);
+            Logger.loge("Inner:  StatusCode: " + data.data.status_code + ", Message: " + data.data.status_message);
         }
     });

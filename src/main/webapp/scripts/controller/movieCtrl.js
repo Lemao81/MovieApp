@@ -1,11 +1,12 @@
 mainModule
-    .controller("movieCtrl", function ($scope, Logger, Watchlist, baseUrlImage, imageSizeList, imageSizeCarousel) {
+    .controller("movieCtrl", function ($scope, $window, Logger, Watchlist, baseUrlImage, imageSizeList, imageSizeCarousel) {
         $scope.selectGenre = function (id) {
             if ($scope.selectedGenres.includes(id)) {
                 $scope.selectedGenres.splice($scope.selectedGenres.indexOf(id), 1);
             } else {
                 $scope.selectedGenres.push(id);
             }
+            $window.sessionStorage.setItem("genres", angular.toJson($scope.selectedGenres));
         };
 
         $scope.genreIdsToString = function (ids) {
@@ -59,4 +60,12 @@ mainModule
 
         $scope.getGenreList();
         $scope.getMovieList("upcoming");
+
+        debugger;
+        var requestToken = $window.sessionStorage.getItem("requesttoken");
+        if (requestToken) {
+            $scope.createSession(requestToken);
+        }
+
+        Watchlist.updateFromSession();
     });

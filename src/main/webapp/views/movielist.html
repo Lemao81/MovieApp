@@ -7,33 +7,24 @@
                         <div class="flex-item flex-1">
                             <img ng-src="{{getImageUrl(imageSizeList, movie.poster_path)}}" alt="no image">
                         </div>
-                        <div class="flex-item flex-1 movie-title">
-                            {{movie.title}}
-                            <br><br>
-
-                            <button class="btn btn-primary btn-sm space-after" ng-click="getImages(movie.id)">Pics</button>
-                            <button class="btn btn-primary btn-sm">Video</button>
-                            <button class="btn btn-primary btn-sm" ng-click="getReviews(movie.id)" data-toggle="modal" data-target="#reviewDialog">
-                                Reviews
-                            </button>
-                            <button class="btn btn-primary btn-sm" ng-click="getSimilarMovies(movie)" data-toggle="modal"
-                                    data-target="#similarDialog">Similar
-                            </button>
-                        </div>
-                        <div class="flex-item flex-1 movie-genres">
-                            {{genreIdsToString(movie.genre_ids)}}
-                            <br><br>
-                            {{movie.vote_average}}
-                        </div>
-                        <div class="flex-item flex-2 movie-overview">
-                            {{movie.overview}}
-                        </div>
-                        <div class="flex-item flex-1">
-                            <button class="btn btn-success" ng-hide="watchlistContainsMovie(movie)" ng-click="addToWatchlist(movie)">+ Watchlist
-                            </button>
-                            <button class="btn btn-warning" ng-show="watchlistContainsMovie(movie)" ng-click="removeFromWatchlist(movie)">-
-                                Watchlist
-                            </button>
+                        <div class="flex-item flex-4">
+                            <div class="row">
+                                <div class="col-md-1">&nbsp;</div>
+                                <div class="col-md-9 leftaligned"><span class="movie-title">{{movie.title}}</span></div>
+                                <div class="col-md-2"><span class="label label-info movie-vote">{{movie.vote_average}}</span></div>
+                            </div>
+                            <div class="flex-container flex-container-spacing">
+                                <div class="flex-item flex-1 justified"><span class="movie-genres">{{genreIdsToString(movie.genre_ids)}}</span></div>
+                                <div class="flex-item flex-5 justified"><span class="movie-overview">{{movie.overview}}</span></div>
+                                <div class="flex-item flex-3">
+                                    <button class="btn btn-primary btn-sm" ng-click="getImages(movie.id)">Pics</button>
+                                    <button class="btn btn-primary btn-sm" ng-click="">Video</button>
+                                    <button class="btn btn-primary btn-sm" ng-click="getReviews(movie.id)" data-toggle="modal" data-target="#reviewDialog">Reviews</button>
+                                    <button class="btn btn-primary btn-sm" ng-click="getSimilarMovies(movie)" data-toggle="modal" data-target="#similarDialog">Similar</button>
+                                    <button class="btn btn-success" ng-click="addToWatchlist(movie)" ng-hide="watchlistContainsMovie(movie)">+ Watchlist</button>
+                                    <button class="btn btn-warning" ng-click="removeFromWatchlist(movie)" ng-show="watchlistContainsMovie(movie)">- Watchlist</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
