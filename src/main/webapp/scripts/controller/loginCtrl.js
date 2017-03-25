@@ -1,6 +1,10 @@
 mainModule
-    .controller("loginCtrl", function ($scope) {
+    .controller("loginCtrl", function ($scope, $window, authenticateUrl, appUrl) {
         $scope.login = function (user) {
-            alert("Name: " + user.name + ", Passwort: " + user.password);
+            $scope.getRequestToken(requestTokenCallback);
         };
+
+        function requestTokenCallback(requestToken) {
+            $window.location.href = authenticateUrl + requestToken + "?redirect_to=" + appUrl;
+        }
     });

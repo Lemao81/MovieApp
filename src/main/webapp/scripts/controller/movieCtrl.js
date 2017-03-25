@@ -1,5 +1,5 @@
 mainModule
-    .controller("movieCtrl", function ($scope, Watchlist, imageBaseUrl, imageSizeList, imageSizeCarousel) {
+    .controller("movieCtrl", function ($scope, Logger, Watchlist, baseUrlImage, imageSizeList, imageSizeCarousel) {
         $scope.selectGenre = function (id) {
             if ($scope.selectedGenres.includes(id)) {
                 $scope.selectedGenres.splice($scope.selectedGenres.indexOf(id), 1);
@@ -45,11 +45,11 @@ mainModule
         };
 
         $scope.getImageUrl = function (size, path) {
-            return imageBaseUrl + size + path;
+            return baseUrlImage + size + path;
         };
 
         $scope.hideCarousel = function () {
-            $scope.showCarousel = false;
+            $scope.$parent.showCarousel = false;
         };
 
         $scope.imageSizeList = imageSizeList;

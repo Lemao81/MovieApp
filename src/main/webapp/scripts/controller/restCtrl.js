@@ -1,7 +1,7 @@
 mainModule
-    .controller("restCtrl", function ($scope, $http, baseUrl, baseUrlMovies, apiKey) {
+    .controller("restCtrl", function ($scope, $http, Logger, Url) {
         $scope.getGenreList = function () {
-            $http.get(appendApiKey(baseUrl + "/genre/movie/list"))
+            $http.get(Url.base("/genre/movie/list").apiKey().build())
                 .then(function (data) {
                     $scope.genres = data.data.genres;
                     var ids = [];
@@ -15,7 +15,7 @@ mainModule
         };
 
         $scope.getMovieList = function (path) {
-            $http.get(appendApiKey(baseUrlMovies + path))
+            $http.get(Url.baseMovie(path).apiKey().build())
                 .then(function (data) {
                     $scope.movies = data.data.results;
                 }, function (data) {
@@ -24,7 +24,7 @@ mainModule
         };
 
         $scope.getImages = function (id) {
-            $http.get(appendApiKey(getMovieUrl(id, "images")))
+            $http.get(Url.baseMovie("images", id).apiKey().build())
                 .then(function (data) {
                     $scope.images = data.data.posters;
                     $scope.showCarousel = true;
@@ -34,7 +34,7 @@ mainModule
         };
 
         $scope.getReviews = function (id) {
-            $http.get(appendApiKey(getMovieUrl(id, "reviews")))
+            $http.get(Url.baseMovie("reviews", id).apiKey().build())
                 .then(function (data) {
                     $scope.reviews = data.data.results;
                 }, function (data) {
@@ -44,7 +44,7 @@ mainModule
 
         $scope.getSimilarMovies = function (movie) {
             $scope.selectedMovie = movie;
-            $http.get(appendApiKey(getMovieUrl(movie.id, "similar")))
+            $http.get(Url.baseMovie("similar", movie.id).apiKey().build())
                 .then(function (data) {
                     $scope.similarMovies = data.data.results;
                 }, function (data) {
@@ -52,14 +52,23 @@ mainModule
                 });
         };
 
-        function appendApiKey(url) {
-            var apiParameter = url.indexOf("?") > 0 ? "&api_key=" : "?api_key=";
-            return url + apiParameter + apiKey;
-        }
+        $scope.getRequestToken = function (callback) {
+            $http.get(Url.base("/authentication/token/new").apiKey().build())
+                .then(function (data) {
+                    if (data.data.success) {
+                        callback(data.data.request_token);
+                        $scope.requestToken = data.data.request_token;
+                    } else {
+                        Logger.loge("Retrieving request token failed");
+                    }
+                }, function (data) {
+                    handleError(data);
+                })
+        };
 
-        function getMovieUrl(id, type) {
-            return baseUrlMovies + id + "/" + type;
-        }
+        $scope.createSession = function (requestToken) {
+            $http.get(Url.base("/authentication/session/new").param("request_token", requestToken).apiKey().build());
+        };
 
         function handleError(data) {
             $scope.error = data;
