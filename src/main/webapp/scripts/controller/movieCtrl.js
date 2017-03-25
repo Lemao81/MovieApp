@@ -53,6 +53,15 @@ mainModule
             $scope.$parent.showCarousel = false;
         };
 
+        $scope.setAssociatedMovies = function (type) {
+            $scope.associatedMovies = type == "similar" ? $scope.similarMovies : $scope.recommendedMovies;
+        };
+
+        $scope.getAssociatedMovies = function (movie) {
+            $scope.getSimilarMovies(movie);
+            $scope.getRecommendedMovies(movie);
+        };
+
         $scope.imageSizeList = imageSizeList;
         $scope.imageSizeCarousel = imageSizeCarousel;
         $scope.$parent.showCarousel = false;
@@ -61,7 +70,6 @@ mainModule
         $scope.getGenreList();
         $scope.getMovieList("upcoming");
 
-        debugger;
         var requestToken = $window.sessionStorage.getItem("requesttoken");
         if (requestToken) {
             $scope.createSession(requestToken);

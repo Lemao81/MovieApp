@@ -53,6 +53,17 @@ mainModule
             $http.get(Url.baseMovie("similar", movie.id).apiKey().build())
                 .then(function (data) {
                     $scope.similarMovies = data.data.results;
+                    $scope.associatedMovies = data.data.results;
+                }, function (data) {
+                    handleError(data);
+                });
+        };
+
+        $scope.getRecommendedMovies = function (movie) {
+            $scope.selectedMovie = movie;
+            $http.get(Url.baseMovie("recommendations", movie.id).apiKey().build())
+                .then(function (data) {
+                    $scope.recommendedMovies = data.data.results;
                 }, function (data) {
                     handleError(data);
                 });

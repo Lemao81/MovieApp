@@ -1,42 +1,45 @@
-<div id="similarDialog" class="modal fade" role="dialog" aria-labelledby="dialogTitle">
+<div id="associatedDialog" class="modal fade" role="dialog" aria-labelledby="dialogTitle">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="dialogTitle">Similar Movies ({{selectedMovie.title}})</h4>
+                <h4 class="modal-title" id="dialogTitle">Similar/Recommended Movies ({{selectedMovie.title}})</h4>
             </div>
             <div class="modal-body">
-                <div ng-if="similarMovies.length > 0">
-                    <div class="flex-container flex-container-spacing" ng-repeat="row in similarMovies | rowCount:3">
-                        <div class="flex-item flex-1" ng-repeat="movie in similarMovies | itemsOfRow:row:3">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="flex-container">
-                                        <div class="flex-item flex-1">
-                                            <img ng-src="{{getImageUrl(imageSizeList, movie.poster_path)}}" alt="no image" class="img-rounded">
-                                        </div>
-                                        <div class="flex-item flex-1">
-                                            <span class="movie-title">{{movie.title}}</span><br><br>
-                                            <button class="btn btn-success" ng-hide="watchlistContainsMovie(movie)" ng-click="addToWatchlist(movie)">+
-                                                Watchlist
-                                            </button>
-                                            <button class="btn btn-warning" ng-show="watchlistContainsMovie(movie)"
-                                                    ng-click="removeFromWatchlist(movie)">-
-                                                Watchlist
-                                            </button>
-                                            <br><br>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="popover"
-                                                    title="Content" data-content="{{movie.overview}}" data-trigger="focus">i
-                                            </button>
+                <div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation"><a href="#associatedList" ng-click="setAssociatedMovies('similar')" role="tab" aria-controls="associatedList" data-toggle="tab">Similar</a></li>
+                        <li role="presentation"><a href="#associatedList" ng-click="setAssociatedMovies('recommended')" role="tab" aria-controls="associatedList" data-toggle="tab">Recommended</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="associatedList">
+                            <div ng-if="similarMovies.length > 0">
+                                <div class="flex-container flex-container-spacing" ng-repeat="row in associatedMovies | rowCount:3">
+                                    <div class="flex-item flex-1" ng-repeat="movie in associatedMovies | itemsOfRow:row:3">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="flex-container">
+                                                    <div class="flex-item flex-1"><img ng-src="{{getImageUrl(imageSizeList, movie.poster_path)}}" alt="no image" class="img-rounded"></div>
+                                                    <div class="flex-item flex-1">
+                                                        <span class="movie-title">{{movie.title}}</span><br><br>
+                                                        <button class="btn btn-success" ng-hide="watchlistContainsMovie(movie)" ng-click="addToWatchlist(movie)">+ Watchlist</button>
+                                                        <button class="btn btn-warning" ng-show="watchlistContainsMovie(movie)" ng-click="removeFromWatchlist(movie)">- Watchlist</button>
+                                                        <br><br>
+                                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="popover" title="Content" data-content="{{movie.overview}}"
+                                                                data-trigger="focus">i
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div ng-if="similarMovies.length == 0">
+                                <p>No similar movies available</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div ng-if="similarMovies.length == 0">
-                    <p>No similar movies available</p>
                 </div>
             </div>
         </div>
@@ -44,9 +47,13 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#similarDialog').on('shown.bs.modal', function() {
-            $('[data-toggle="popover"]').popover();
-        })
+    $(document).ready(function () {
+        $('#associatedDialog')
+                .on('show.bs.modal', function () {
+                    $('#associatedDialog .nav-tabs li:first').addClass("active");
+                })
+                .on('shown.bs.modal', function () {
+                    $('[data-toggle="popover"]').popover();
+                });
     });
 </script>
