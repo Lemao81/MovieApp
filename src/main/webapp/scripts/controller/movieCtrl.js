@@ -1,5 +1,5 @@
 mainModule
-    .controller("movieCtrl", function ($scope, $window, Logger, Watchlist, baseUrlImage, imageSizeList, imageSizeCarousel) {
+    .controller("movieCtrl", function ($scope, $window, Url, Logger, Watchlist, baseUrlImage, imageSizeList, imageSizeCarousel, youtubeWatchUrl) {
         $scope.selectGenre = function (id) {
             if ($scope.selectedGenres.includes(id)) {
                 $scope.selectedGenres.splice($scope.selectedGenres.indexOf(id), 1);
@@ -54,12 +54,16 @@ mainModule
         };
 
         $scope.setAssociatedMovies = function (type) {
-            $scope.associatedMovies = type == "similar" ? $scope.similarMovies : $scope.recommendedMovies;
+            $scope.$parent.associatedMovies = type == "similar" ? $scope.similarMovies : $scope.recommendedMovies;
         };
 
         $scope.getAssociatedMovies = function (movie) {
             $scope.getSimilarMovies(movie);
             $scope.getRecommendedMovies(movie);
+        };
+
+        $scope.startVideo = function (key) {
+            $window.open(Url.init(youtubeWatchUrl).param("v", key).build(), "_blank");
         };
 
         $scope.imageSizeList = imageSizeList;

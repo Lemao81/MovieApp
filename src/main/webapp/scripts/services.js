@@ -66,6 +66,10 @@ mainModule
         }
 
         return {
+            init: function (baseUrl) {
+                url = baseUrl;
+                return this;
+            },
             base: function (path) {
                 url = baseUrl + path;
                 return this;

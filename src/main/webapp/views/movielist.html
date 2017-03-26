@@ -18,8 +18,8 @@
                                 <div class="flex-item flex-5 justified"><span class="movie-overview">{{movie.overview}}</span></div>
                                 <div class="flex-item flex-3">
                                     <button class="btn btn-primary btn-sm" ng-click="getImages(movie.id)">Pics</button>
-                                    <button class="btn btn-primary btn-sm" ng-click="">Video</button>
-                                    <button class="btn btn-primary btn-sm" ng-click="getReviews(movie.id)" data-toggle="modal" data-target="#reviewDialog">Reviews</button>
+                                    <button class="btn btn-primary btn-sm" ng-click="getVideos(movie)" data-toggle="modal" data-target="#videoDialog">Video</button>
+                                    <button class="btn btn-primary btn-sm" ng-click="getReviews(movie)" data-toggle="modal" data-target="#reviewDialog">Reviews</button>
                                     <button class="btn btn-primary btn-sm" ng-click="getAssociatedMovies(movie)" data-toggle="modal" data-target="#associatedDialog">Associated</button>
                                     <button class="btn btn-success" ng-click="addToWatchlist(movie)" ng-hide="watchlistContainsMovie(movie)">+ Watchlist</button>
                                     <button class="btn btn-warning" ng-click="removeFromWatchlist(movie)" ng-show="watchlistContainsMovie(movie)">- Watchlist</button>

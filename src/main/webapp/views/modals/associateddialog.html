@@ -13,7 +13,7 @@
                     </ul>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="associatedList">
-                            <div ng-if="similarMovies.length > 0">
+                            <div ng-if="associatedMovies.length > 0">
                                 <div class="flex-container flex-container-spacing" ng-repeat="row in associatedMovies | rowCount:3">
                                     <div class="flex-item flex-1" ng-repeat="movie in associatedMovies | itemsOfRow:row:3">
                                         <div class="panel panel-default">
@@ -35,8 +35,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div ng-if="similarMovies.length == 0">
-                                <p>No similar movies available</p>
+                            <div ng-if="associatedMovies.length == 0">
+                                <p>No associated movies available</p>
                             </div>
                         </div>
                     </div>

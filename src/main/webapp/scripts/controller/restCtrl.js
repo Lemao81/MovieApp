@@ -39,9 +39,10 @@ mainModule
                 });
         };
 
-        $scope.getReviews = function (id) {
-            $http.get(Url.baseMovie("reviews", id).apiKey().build())
+        $scope.getReviews = function (movie) {
+            $http.get(Url.baseMovie("reviews", movie.id).apiKey().build())
                 .then(function (data) {
+                    $scope.selectedMovie = movie;
                     $scope.reviews = data.data.results;
                 }, function (data) {
                     handleError(data);
@@ -87,14 +88,12 @@ mainModule
             $http.get(Url.base("/authentication/session/new").param("request_token", requestToken).apiKey().build())
                 .then(function (data) {
                     if (data.data.success) {
-                        debugger;
                         $scope.sessionId = data.data.session_id;
                         $scope.getAccountDetails($scope.sessionId);
                     } else {
                         Logger.loge("Retrieving session id failed");
                     }
                 }, function (data) {
-                    debugger;
                     handleError(data);
                 });
         };
@@ -102,8 +101,17 @@ mainModule
         $scope.getAccountDetails = function (sessionId) {
             $http.get(Url.base("/account").param("session_id", sessionId).apiKey().build())
                 .then(function (data) {
-                    debugger;
                     $scope.username = data.data.username;
+                }, function (data) {
+                    handleError(data);
+                });
+        };
+
+        $scope.getVideos = function (movie) {
+            $http.get(Url.baseMovie("videos", movie.id).apiKey().build())
+                .then(function (data) {
+                    $scope.selectedMovie = movie;
+                    $scope.videos = data.data.results;
                 }, function (data) {
                     handleError(data);
                 });

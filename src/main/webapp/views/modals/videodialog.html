@@ -1,0 +1,25 @@
+<div id="videoDialog" class="modal fade" role="dialog" aria-labelledby="dialogTitle">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="dialogTitle">Videos ({{selectedMovie.title}})</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="videos.length > 0">
+                    <div class="panel panel-default" ng-repeat="video in videos">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{video.name}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-primary" ng-click="startVideo(video.key)">Start at Youtube</button>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="videos.length == 0">
+                    <p>No videos available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
