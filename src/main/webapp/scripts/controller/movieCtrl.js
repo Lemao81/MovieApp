@@ -1,12 +1,12 @@
 mainModule
-    .controller("movieCtrl", function ($scope, $window, Url, Logger, Watchlist, baseUrlImage, imageSizeList, imageSizeCarousel, youtubeWatchUrl) {
+    .controller("movieCtrl", function ($scope, $window, Url, Logger, Watchlist, Session, baseUrlImage, imageSizeList, imageSizeCarousel, youtubeWatchUrl) {
         $scope.selectGenre = function (id) {
             if ($scope.selectedGenres.includes(id)) {
                 $scope.selectedGenres.splice($scope.selectedGenres.indexOf(id), 1);
             } else {
                 $scope.selectedGenres.push(id);
             }
-            $window.sessionStorage.setItem("genres", angular.toJson($scope.selectedGenres));
+            Session.set("genres", $scope.selectedGenres);
         };
 
         $scope.genreIdsToString = function (ids) {
@@ -66,6 +66,10 @@ mainModule
             $window.open(Url.init(youtubeWatchUrl).param("v", key).build(), "_blank");
         };
 
+        $scope.showErrorRequired = function (element) {
+            return element.$dirty && element.$error.required;
+        };
+
         $scope.imageSizeList = imageSizeList;
         $scope.imageSizeCarousel = imageSizeCarousel;
         $scope.$parent.showCarousel = false;
@@ -74,7 +78,7 @@ mainModule
         $scope.getGenreList();
         $scope.getMovieList("upcoming");
 
-        var requestToken = $window.sessionStorage.getItem("requesttoken");
+        var requestToken = Session.get("requesttoken");
         if (requestToken) {
             $scope.createSession(requestToken);
         }

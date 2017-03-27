@@ -1,9 +1,10 @@
 mainModule
-    .factory("Watchlist", function ($window) {
+    .factory("Watchlist", function (Session) {
         var watchlist = [];
 
         var storeWatchlist = function () {
-            $window.sessionStorage.setItem("watchlist", angular.toJson(watchlist));
+            Session.set("watchlist", watchlist);
+            //$window.sessionStorage.setItem("watchlist", angular.toJson(watchlist));
         };
 
         return {
@@ -29,9 +30,10 @@ mainModule
                 return watchlist;
             },
             updateFromSession: function () {
-                var watchlistStringified = $window.sessionStorage.getItem("watchlist");
-                if (watchlistStringified) {
-                    watchlist = angular.fromJson(watchlistStringified);
+                var storedWatchlist = Session.get("watchlist");
+                //var watchlistStringified = $window.sessionStorage.getItem("watchlist");
+                if (storedWatchlist) {
+                    watchlist = storedWatchlist;
                 }
             }
         };
@@ -88,6 +90,17 @@ mainModule
             },
             build: function () {
                 return url;
+            }
+        }
+    })
+    .factory("Session", function ($window) {
+        return {
+            get: function (key) {
+                var valueStringified = $window.sessionStorage.getItem(key);
+                return valueStringified ? angular.fromJson(valueStringified) : valueStringified;
+            },
+            set: function (key, value) {
+                $window.sessionStorage.setItem(key, angular.toJson(value));
             }
         }
     });

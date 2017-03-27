@@ -1,13 +1,12 @@
 mainModule
-    .controller("restCtrl", function ($scope, $http, $window, Logger, Url) {
+    .controller("restCtrl", function ($scope, $http, Session, Logger, Url) {
         $scope.getGenreList = function () {
             $http.get(Url.base("/genre/movie/list").apiKey().build())
                 .then(function (data) {
                     $scope.genres = data.data.genres;
-
-                    var genreListStringified = $window.sessionStorage.getItem("genres");
-                    if (genreListStringified) {
-                        $scope.selectedGenres = angular.fromJson(genreListStringified);
+                    var storedSelectedGenres = Session.get("genres");
+                    if (storedSelectedGenres) {
+                        $scope.selectedGenres = storedSelectedGenres;
                     } else {
                         var ids = [];
                         $scope.genres.forEach(function (genre) {
