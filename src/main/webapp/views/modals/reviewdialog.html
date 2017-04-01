@@ -2,10 +2,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <!--header-->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="dialogTitle">Reviews ({{selectedMovie.title}})</h4>
             </div>
             <div class="modal-body">
+
+                <!--content-->
                 <div ng-if="reviews.length > 0">
                     <div class="panel panel-default" ng-repeat="review in reviews">
                         <div class="panel-heading">
@@ -19,6 +22,7 @@
                 <div ng-if="reviews.length == 0">
                     <p>No reviews available</p>
                 </div>
+
             </div>
         </div>
     </div>

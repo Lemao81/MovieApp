@@ -4,7 +4,6 @@ mainModule
 
         var storeWatchlist = function () {
             Session.set("watchlist", watchlist);
-            //$window.sessionStorage.setItem("watchlist", angular.toJson(watchlist));
         };
 
         return {
@@ -31,7 +30,6 @@ mainModule
             },
             updateFromSession: function () {
                 var storedWatchlist = Session.get("watchlist");
-                //var watchlistStringified = $window.sessionStorage.getItem("watchlist");
                 if (storedWatchlist) {
                     watchlist = storedWatchlist;
                 }
@@ -101,6 +99,32 @@ mainModule
             },
             set: function (key, value) {
                 $window.sessionStorage.setItem(key, angular.toJson(value));
+            }
+        }
+    })
+    .factory("Broadcast", function ($rootScope) {
+        return {
+            send: function (event, data) {
+                $rootScope.$broadcast(event, {data: data});
+            },
+            register: function (scope, type, property) {
+                scope.$on(type, function (event, args) {
+                    if (property) {
+                        if (angular.isArray(property)) {
+                            property.forEach(function (item) {
+                                scope[item] = args.data[item];
+                            });
+                        } else {
+                            scope[property] = args.data;
+                        }
+                    } else {
+                        for (var prop in args.data) {
+                            if (args.data.hasOwnProperty(prop)) {
+                                scope[prop] = args.data[prop];
+                            }
+                        }
+                    }
+                });
             }
         }
     });

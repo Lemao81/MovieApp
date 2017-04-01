@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="movieApp">
+<html ng-app="movieApp" ng-controller="bootstrapCtrl">
 <head>
     <meta charset="UTF-8">
     <title>MovieApp</title>
@@ -15,12 +15,14 @@
     <script src="scripts/modules.js"></script>
     <script src="scripts/constants.js"></script>
     <script src="scripts/filters.js"></script>
-    <script src="scripts/services.js"></script>
+    <script src="scripts/service/services.js"></script>
+    <script src="scripts/service/rest.js"></script>
+    <script src="scripts/controller/bootstrapCtrl.js"></script>
     <script src="scripts/controller/movieCtrl.js"></script>
-    <script src="scripts/controller/restCtrl.js"></script>
+    <script src="scripts/controller/genreCtrl.js"></script>
     <script src="scripts/controller/loginCtrl.js"></script>
 </head>
-<body ng-controller="restCtrl">
+<body>
     <div ng-controller="movieCtrl">
         <ng-include src="'views/Navbar.html'"></ng-include>
         <ng-include src="'views/modals/genredialog.html'"></ng-include>

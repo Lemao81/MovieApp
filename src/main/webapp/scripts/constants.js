@@ -9,3 +9,17 @@ mainModule
 
     .constant("imageSizeList", "/w92")
     .constant("imageSizeCarousel", "/w500")
+
+    .constant("ON_GENRES", "onGenres")
+    .constant("ON_SELECTEDGENRES", "onSelectedGenres")
+    .constant("ON_MOVIES", "onMovies")
+    .constant("ON_IMAGES", "onImages")
+    .constant("ON_CAROUSEL", "onCarousel")
+    .constant("ON_REVIEWS", "onReviews")
+    .constant("ON_SELECTEDMOVIE", "onSelectedMovie")
+    .constant("ON_SIMILARMOVIES", "onSimilarMovies")
+    .constant("ON_ASSOCIATEDMOVIES", "onAssociatedMovies")
+    .constant("ON_RECOMMANDEDMOVIES", "onRecommandedMovies")
+    .constant("ON_ACCOUNTDETAILS", "onAccountDetails")
+    .constant("ON_VIDEOS", "onVideos")
+    .constant("ON_ERROR", "onError")

@@ -1,7 +1,7 @@
 mainModule
-    .controller("loginCtrl", function ($scope, $window, Session, authenticateUrl, appUrl) {
+    .controller("loginCtrl", function ($scope, $window, Session, authenticateUrl, appUrl, REST) {
         $scope.loginMovieDB = function () {
-            $scope.getRequestToken(requestTokenCallback);
+            REST.getRequestToken(requestTokenCallback);
         };
 
         $scope.login = function (user) {
@@ -9,11 +9,9 @@ mainModule
         };
 
         function requestTokenCallback(requestToken) {
-            $window.location.href = authenticateUrl + requestToken + "?redirect_to=" + "http://localhost:8080/#/login";
+            $window.location.href = authenticateUrl + requestToken + "?redirect_to=" + appUrl;
             Session.set("requesttoken", requestToken);
         }
 
-        function createSessionCallback(sessionId) {
 
-        }
     });

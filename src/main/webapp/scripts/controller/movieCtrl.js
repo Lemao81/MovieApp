@@ -1,14 +1,7 @@
 mainModule
-    .controller("movieCtrl", function ($scope, $window, Url, Logger, Watchlist, Session, baseUrlImage, imageSizeList, imageSizeCarousel, youtubeWatchUrl) {
-        $scope.selectGenre = function (id) {
-            if ($scope.selectedGenres.includes(id)) {
-                $scope.selectedGenres.splice($scope.selectedGenres.indexOf(id), 1);
-            } else {
-                $scope.selectedGenres.push(id);
-            }
-            Session.set("genres", $scope.selectedGenres);
-        };
-
+    .controller("movieCtrl", function ($scope, $window, Url, Logger, Broadcast, Watchlist, Session, baseUrlImage, imageSizeList, imageSizeCarousel,
+                                       youtubeWatchUrl, REST, ON_GENRES, ON_SELECTEDGENRES, ON_MOVIES, ON_IMAGES, ON_CAROUSEL, ON_REVIEWS, ON_SELECTEDMOVIE, ON_SIMILARMOVIES,
+                                       ON_RECOMMANDEDMOVIES, ON_ASSOCIATEDMOVIES, ON_ACCOUNTDETAILS, ON_VIDEOS) {
         $scope.genreIdsToString = function (ids) {
             var result = "";
             ids.forEach(function (id) {
@@ -23,6 +16,22 @@ mainModule
                 }
             });
             return result;
+        };
+
+        $scope.getMovieList = function (path) {
+            REST.getMovieList(path);
+        };
+
+        $scope.getImages = function (id) {
+            REST.getImages(id);
+        };
+
+        $scope.getReviews = function (movie) {
+            REST.getReviews(movie);
+        };
+
+        $scope.getVideos = function (movie) {
+            REST.getVideos(movie);
         };
 
         $scope.addToWatchlist = function (movie) {
@@ -42,7 +51,7 @@ mainModule
         };
 
         $scope.showWatchlist = function () {
-            $scope.$parent.movies = Watchlist.getWatchlist();
+            Broadcast.send(ON_MOVIES, Watchlist.getWatchlist());
         };
 
         $scope.getImageUrl = function (size, path) {
@@ -50,16 +59,16 @@ mainModule
         };
 
         $scope.hideCarousel = function () {
-            $scope.$parent.showCarousel = false;
+            Broadcast.send(ON_CAROUSEL, false);
         };
 
         $scope.setAssociatedMovies = function (type) {
-            $scope.$parent.associatedMovies = type == "similar" ? $scope.similarMovies : $scope.recommendedMovies;
+            $scope.associatedMovies = type == "similar" ? $scope.similarMovies : $scope.recommendedMovies;
         };
 
         $scope.getAssociatedMovies = function (movie) {
-            $scope.getSimilarMovies(movie);
-            $scope.getRecommendedMovies(movie);
+            REST.getSimilarMovies(movie);
+            REST.getRecommendedMovies(movie);
         };
 
         $scope.startVideo = function (key) {
@@ -72,16 +81,18 @@ mainModule
 
         $scope.imageSizeList = imageSizeList;
         $scope.imageSizeCarousel = imageSizeCarousel;
-        $scope.$parent.showCarousel = false;
         $scope.$parent.selectedMovie = null;
 
-        $scope.getGenreList();
-        $scope.getMovieList("upcoming");
-
-        var requestToken = Session.get("requesttoken");
-        if (requestToken) {
-            $scope.createSession(requestToken);
-        }
-
-        Watchlist.updateFromSession();
+        Broadcast.register($scope, ON_GENRES, "genres");
+        Broadcast.register($scope, ON_SELECTEDGENRES, "selectedGenres");
+        Broadcast.register($scope, ON_MOVIES, "movies");
+        Broadcast.register($scope, ON_IMAGES, "images");
+        Broadcast.register($scope, ON_CAROUSEL, "showCarousel");
+        Broadcast.register($scope, ON_REVIEWS, "reviews");
+        Broadcast.register($scope, ON_SELECTEDMOVIE, "selectedMovie");
+        Broadcast.register($scope, ON_SIMILARMOVIES, "similarMovies");
+        Broadcast.register($scope, ON_ASSOCIATEDMOVIES, "associatedMovies");
+        Broadcast.register($scope, ON_RECOMMANDEDMOVIES, "recommendedMovies");
+        Broadcast.register($scope, ON_ACCOUNTDETAILS, ["username", "name", "avatar"]);
+        Broadcast.register($scope, ON_VIDEOS, "videos");
     });
